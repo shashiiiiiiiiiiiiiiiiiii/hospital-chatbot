@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital Webpage</title>
+  <style>
+    /* Reset */
+    * {margin:0; padding:0; box-sizing:border-box;}
+    body {font-family: 'Segoe UI', sans-serif; line-height:1.6; color:#333;}
+    a {text-decoration:none;}
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      background: #0077b6; /* CHANGED: Primary Blue */
+      padding: 1em 2em;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav .logo {color:#fff; font-size:1.5em; font-weight:bold;}
+    nav ul {list-style:none; display:flex; flex-wrap: wrap;}
+    nav ul li {margin-left:20px;}
+    nav ul li a {color:#fff; font-weight:500; transition:0.3s;}
+    nav ul li a:hover {color:#00b894;} /* CHANGED: Accent Green hover */
+
+    /* Hero */
+    header {
+      /* Hospital/Medical Theme Image (Unchanged) */
+      background: linear-gradient(rgba(0,119,182,0.5), rgba(0,119,182,0.5)), /* CHANGED: Overlay Blue */
+                  url('https://images.unsplash.com/photo-1551076800-db882d242780?fit=crop&w=1400&q=80') no-repeat center center/cover;
+      height: 80vh;
+      color:white;
+      display:flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding:2em;
+    }
+    header h1 {font-size:3em; margin-bottom:0.5em;}
+    header p {font-size:1.2em; max-width:600px; margin-bottom:1.5em;}
+    .btn-primary {
+      background:#00b894; color:#fff; padding:0.8em 1.5em; /* CHANGED: Accent Green Button */
+      border:none; border-radius:5px; font-size:1em;
+      cursor:pointer; display:inline-block; transition:0.3s;
+    }
+    .btn-primary:hover {background:#00a082;} /* CHANGED: Darker Green hover */
+
+    /* Sections */
+    section {padding:5em 2em;}
+    #about {background:#f0f9ff; text-align:center;} /* CHANGED: Very light blue background */
+    #about h2 {margin-bottom:1em; font-size:2em;}
+    #about p {max-width:800px; margin:0 auto 2em;}
+    .features {display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:2em; margin-top:2em;}
+    .card {background:#fff; padding:2em; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.1);}
+    .card h3 {font-size:1.4em; margin-bottom:0.5em;}
+    .emoji {font-size:2em; display:block; margin-bottom:0.5em;}
+
+    #feedback {background:#e6f7ff; text-align:center;} /* CHANGED: Light blue background */
+    #feedback h2 {margin-bottom:1em;}
+    #feedback textarea {width:100%; max-width:600px; height:120px; padding:1em; border:1px solid #ccc; border-radius:8px;}
+    #feedback button {margin-top:1em;}
+
+    #contact {background:#0077b6; color:white; text-align:center;} /* CHANGED: Primary Blue */
+    #contact h2 {margin-bottom:1em;}
+    #contact p {margin:0.3em 0;}
+
+    /* Footer */
+    footer {background:#004a77; color:white; padding:2em; text-align:center;} /* CHANGED: Darker Footer Blue */
+
+    /* Modals - UNCHANGED DESIGN */
+    .modal {
+      display:none;
+      position:fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background:rgba(0,0,0,0.6);
+      justify-content:center;
+      align-items:center;
+      padding:1em;
+      overflow-y:auto;
+      z-index:2000;
+    }
+    .modal:target {display:flex;}
+    .modal-content {
+      background: #fff;
+      padding: 2.5em 2em;
+      border-radius: 12px;
+      width: 450px;
+      max-width: 90%;
+      position: relative;
+      text-align: left;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      animation: slideDown 0.4s ease;
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .modal-content h3 {margin-bottom:1em;}
+    .modal-content input, .modal-content textarea {
+      width: 100%;
+      padding: 0.9em;
+      margin: 0.5em 0 1.2em;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1em;
+    }
+    .modal-content button, .modal-content a.btn-primary {
+      width: 100%;
+      padding: 0.8em;
+      font-size: 1em;
+      border-radius: 6px;
+      /* Ensure modal button uses the new green color */
+      background:#00b894;
+      color:#fff;
+    }
+    .close {
+      position:absolute;
+      top:12px; right:15px;
+      font-size:1.5em; font-weight:bold;
+      color:#111827; transition:0.3s;
+    }
+    .close:hover {color:#00b894;} /* CHANGED: Green hover for close button */
+
+    /* Smooth Scroll */
+    html {scroll-behavior:smooth;}
+
+    /* Responsive adjustments */
+    @media(max-width:600px){
+      nav ul li {margin-left:10px;}
+      header h1 {font-size:2em;}
+      header p {font-size:1em;}
+      .card {padding:1.5em;}
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">Hospital Portal</div>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#feedback">Feedback</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#loginModal">Login</a></li>
+      <li><a href="#sentimentModal">Sentiment</a></li>
+      <li><a href="#ttsModal">Text-to-Speech</a></li>
+    </ul>
+  </nav>
+
+  <header id="home">
+    <h1>Your Health, Our Priority.</h1>
+    <p>A modern hospital portal with interactive tools, including a chatbot showcase.</p>
+    <a href="#about" class="btn-primary">Our Services</a>
+  </header>
+
+  <section id="about">
+    <h2>About Our Hospital</h2>
+    <p>We are dedicated to providing excellent patient care and leveraging technology for better service, including our integrated chatbot, login, sentiment analysis, and text-to-speech tools.</p>
+    <div class="features">
+      <div class="card"><span class="emoji">🩺</span><h3>Expert Care</h3><p>Experienced doctors and state-of-the-art medical technology.</p></div>
+      <div class="card"><span class="emoji">💬</span><h3>24/7 Chatbot Support</h3><p>Instant help, appointment booking, and answers to common queries.</p></div>
+      <div class="card"><span class="emoji">🩹</span><h3>Wellness & Recovery</h3><p>A compassionate environment focused entirely on your health journey.</p></div>
+    </div>
+  </section>
+
+  <section id="feedback">
+    <h2>Patient Feedback</h2>
+    <p>Help us improve our service. Please share your experience below:</p>
+    <textarea placeholder="Write your feedback here..."></textarea>
+    <br>
+    <button class="btn-primary">Submit</button>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <p>Email: appointments@hospital.org</p>
+    <p>Phone: +91 91234 56789</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Hospital Portal. All rights reserved.</p>
+  </footer>
+
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <a href="#" class="close">&times;</a>
+      <h3>Patient/Staff Login</h3>
+      <input type="text" placeholder="Patient ID / Username">
+      <input type="password" placeholder="Password">
+      <button class="btn-primary">Login</button>
+    </div>
+  </div>
+
+  <div id="sentimentModal" class="modal">
+    <div class="modal-content">
+      <a href="#" class="close">&times;</a>
+      <h3>Sentiment Analyzer</h3>
+      <textarea placeholder="Type a review or note to check its sentiment..."></textarea>
+      <button class="btn-primary">Analyze</button>
+    </div>
+  </div>
+
+  <div id="ttsModal" class="modal">
+    <div class="modal-content">
+      <a href="#" class="close">&times;</a>
+      <h3>Text to Speech for Accessibility</h3>
+      <textarea placeholder="Enter text for the system to read out loud..."></textarea>
+      <button class="btn-primary">Speak</button>
+    </div>
+  </div>
+
+  <script>
+    // Text-to-Speech - Functionality unchanged
+    const ttsModal = document.querySelector("#ttsModal");
+    const ttsButton = ttsModal.querySelector("button");
+    const ttsTextarea = ttsModal.querySelector("textarea");
+
+    ttsButton.addEventListener("click", () => {
+      const text = ttsTextarea.value;
+      if(text.trim() !== "") {
+        const utterance = new SpeechSynthesisUtterance(text);
+        speechSynthesis.speak(utterance);
+      } else {
+        alert("Please enter some text to speak!");
+      }
+    });
+
+    // Simple Sentiment Analyzer - Functionality unchanged
+    const sentimentModal = document.querySelector("#sentimentModal");
+    const sentimentButton = sentimentModal.querySelector("button");
+    const sentimentTextarea = sentimentModal.querySelector("textarea");
+
+    // Word lists updated for a hospital/medical context
+    const positiveWords = ["excellent","caring","great","helpful","recovering","healthy","love","kind","professional"];
+    const negativeWords = ["pain","long wait","terrible","unprofessional","poor","awful","disappointing","staff"];
+
+    sentimentButton.addEventListener("click", () => {
+      const text = sentimentTextarea.value.toLowerCase();
+      if(text.trim() === "") { alert("Please enter text to analyze!"); return; }
+
+      let score = 0;
+      positiveWords.forEach(word => { if(text.includes(word)) score++; });
+      negativeWords.forEach(word => { if(text.includes(word)) score--; });
+
+      let sentiment = "Neutral";
+      if(score > 0) sentiment = "Positive 😊";
+      else if(score < 0) sentiment = "Negative 😞";
+
+      alert("Sentiment: " + sentiment);
+    });
+  </script>
+
+<script>  
+  window.watsonAssistantChatOptions = {  
+    integrationID: "618414ac-6218-453b-957f-50efb0e8ead9", // The ID of this integration.  
+    region: "au-syd", // The region your integration is hosted in.  
+    serviceInstanceID: "75481956-da30-4f63-8ff2-455e88552a7c", // The ID of your service instance.  
+    onLoad: async (instance) => { await instance.render(); }  
+  };  
+  setTimeout(function(){  
+    const t=document.createElement('script');  
+    t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";  
+    document.head.appendChild(t);  
+  });  
+</script>
+
+</body>
+</html>
