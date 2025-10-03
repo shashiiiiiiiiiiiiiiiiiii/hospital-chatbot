@@ -257,19 +257,20 @@
     });
   </script>
 
-<script>  
-  window.watsonAssistantChatOptions = {  
-    integrationID: "618414ac-6218-453b-957f-50efb0e8ead9", // The ID of this integration.  
-    region: "au-syd", // The region your integration is hosted in.  
-    serviceInstanceID: "75481956-da30-4f63-8ff2-455e88552a7c", // The ID of your service instance.  
-    onLoad: async (instance) => { await instance.render(); }  
-  };  
-  setTimeout(function(){  
-    const t=document.createElement('script');  
-    t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";  
-    document.head.appendChild(t);  
-  });  
+<script>
+  window.watsonAssistantChatOptions = {
+    integrationID: "9c40cf1b-b61a-4168-899d-991fd7ecdf0c", // The ID of this integration.
+    region: "au-syd", // The region your integration is hosted in.
+    serviceInstanceID: "3da56eb8-dabb-431c-9e00-2c2e0bf5e1e5", // The ID of your service instance.
+    onLoad: async (instance) => { await instance.render(); }
+  };
+  setTimeout(function(){
+    const t=document.createElement('script');
+    t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+    document.head.appendChild(t);
+  });
 </script>
 
 </body>
 </html>
+
